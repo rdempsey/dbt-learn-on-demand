@@ -1,0 +1,34 @@
+version: 2
+
+models:
+    - name: stg_payments
+      description: Staged payments data from our jaffle shop app.
+      columns:
+        - name: payment_id
+          description: Primary key for stg_payments
+          tests:
+            - unique
+            - not_null
+        - name: order_id
+          description: Foreign key to stg_orderd.order_id.
+          tests:
+            - not_null
+            - relationships:
+                to: ref('stg_orders')
+                field: order_id
+        - name: status
+          tests:
+            - not_null
+            - accepted_values:
+                values:
+                    - success
+                    - fail
+        - name: payment_method
+          tests:
+            - not_null
+            - accepted_values:
+                values:
+                    - credit_card
+                    - bank_transfer
+                    - coupon
+                    - gift_card
